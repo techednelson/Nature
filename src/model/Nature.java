@@ -3,7 +3,7 @@ package model;
 public class Nature {
 
     private static Nature nature;
-    private LivingBeing[][] map;
+    private static LivingBeing[][] map = new LivingBeing[8][8];
     private int turn;
 
     private Nature() {}

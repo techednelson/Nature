@@ -3,10 +3,12 @@ package model;
 public class LivingBeing {
     private int x;
     private int y;
+    private String type;
 
-    public LivingBeing (int y, int x) {
+    public LivingBeing (int y, int x, String type) {
         this.y = y;
         this.x = x;
+        this.type = type;
     }
 
     public int getX() {
@@ -24,4 +26,8 @@ public class LivingBeing {
     public void setY(int y) {
         this.y = y;
     }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 }
