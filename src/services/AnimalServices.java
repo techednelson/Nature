@@ -1,14 +1,12 @@
 package services;
 
+import model.LivingBeing;
+
 public interface AnimalServices {
 
-    void gettingOldAnimal();
-
-    void givingBirthToAnimal();
+    void gettingOldAnimal(LivingBeing[][] map);
 
     void feedAnimal();
-
-    void killAnimal();
 
     /**
      * In which adjacent location the animal will be moved, it must be random! it can turn also in the same position as started! Note that in order to move at least one adjacent location must be empty!
