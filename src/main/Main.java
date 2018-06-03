@@ -10,14 +10,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //model variables
         Nature nature = Nature.getNature();
         LivingBeing[][] map;
         LivingBeing animal;
         LivingBeing plant;
 
 
-        //services variables
+        // create an object for each service class implementation
         NatureServices natureService = new NatureServicesImpl();
         AnimalServices animalServices = new AnimalServicesImpl();
         PlantServices plantServices = new PlantSerrvicesImpl();
@@ -58,13 +57,10 @@ public class Main {
         natureService.printNature(map);
 
 
-        // printing animal & plants population
         animalServices.printAnimalPopulation();
         plantServices.printRemainingPlants();
 
 
-        // starting life's cycle
-        animalServices.gettingOldAnimal(map);
-        animalServices.feedAnimal();
+        animalServices.startLivingBeingFoodChain(map);
     }
 }
