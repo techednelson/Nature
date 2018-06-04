@@ -11,14 +11,14 @@ public class AnimalServicesImpl implements AnimalServices {
     private int x;
     private int y;
     private String type;
-    int adjacentLocation;
+    private int adjacentLocation;
 
     private void incrementAnimalAge(Animal animal) {
         animal.setAge();
     }
 
     private boolean checkAnimalHungerResistance(Animal animal) {
-        return animal.getHungerResistance() <= 0;
+        return animal.getHungerResistance() >= 0;
     }
 
     private void killAnimal(Animal animal) {
@@ -46,7 +46,6 @@ public class AnimalServicesImpl implements AnimalServices {
                                     x-1,
                                     animal.getAgeToGiveBirth(),
                                     animal.getSpeed(),
-                                    animal.getHungerResistance(),
                                     animal.getType()
                                 );
         // check if there is available space at the right side of the animal
@@ -57,7 +56,6 @@ public class AnimalServicesImpl implements AnimalServices {
                                     x+1,
                                     animal.getAgeToGiveBirth(),
                                     animal.getSpeed(),
-                                    animal.getHungerResistance(),
                                     animal.getType()
                                  );
         // check if there is available space at the button side of the animal
@@ -68,7 +66,6 @@ public class AnimalServicesImpl implements AnimalServices {
                                     x,
                                     animal.getAgeToGiveBirth(),
                                     animal.getSpeed(),
-                                    animal.getHungerResistance(),
                                     animal.getType()
                                 );
         // check if there is available space at the top side of the animal
@@ -79,7 +76,6 @@ public class AnimalServicesImpl implements AnimalServices {
                                     x,
                                     animal.getAgeToGiveBirth(),
                                     animal.getSpeed(),
-                                    animal.getHungerResistance(),
                                     animal.getType()
                                 );
 
@@ -117,7 +113,8 @@ public class AnimalServicesImpl implements AnimalServices {
         {
 
             killAnimal((Animal)currentMap[y + 1][x]);
-            Animal.setAnimalsEaten();
+            Animal.setAnimalsEaten(); // increment number of animals eaten during current turn
+            animal.setHungerResistance(); //Increment Animal resistance
 
         } else if(currentMap[y - 1][x] instanceof Animal &&
                 currentMap[y - 1][x].getType().equals("goat") ||
@@ -125,7 +122,8 @@ public class AnimalServicesImpl implements AnimalServices {
         {
 
             killAnimal((Animal)currentMap[y - 1][x]);
-            Animal.setAnimalsEaten();
+            Animal.setAnimalsEaten(); // increment number of animals eaten during current turn
+            animal.setHungerResistance(); //Increment Animal resistance
 
         } else if(currentMap[y][x - 1] instanceof Animal &&
                 currentMap[y][x - 1].getType().equals("goat") ||
@@ -133,7 +131,8 @@ public class AnimalServicesImpl implements AnimalServices {
         {
 
             killAnimal((Animal)currentMap[y][x - 1]);
-            Animal.setAnimalsEaten();
+            Animal.setAnimalsEaten(); // increment number of animals eaten during current turn
+            animal.setHungerResistance(); //Increment Animal resistance
 
         } else if(currentMap[y][x + 1] instanceof Animal &&
                 currentMap[y][x + 1].getType().equals("goat") ||
@@ -141,44 +140,16 @@ public class AnimalServicesImpl implements AnimalServices {
         {
 
             killAnimal((Animal)currentMap[y][x + 1]);
-            Animal.setAnimalsEaten();
+            Animal.setAnimalsEaten(); // increment number of animals eaten during current turn
+            animal.setHungerResistance(); //Increment Animal resistance
         }
 
     }
 
     private void feedHerbivorous(Animal animal) {
-
-        y = animal.getY();
-        x = animal.getX();
-
-        if(currentMap[y][x] instanceof Plant &&
-                currentMap[y][x].equals(animal))
-        {
-
-            killAnimal((Animal)currentMap[y + 1][x]);
-
-        } else if(currentMap[y - 1][x] instanceof Animal &&
-                currentMap[y - 1][x].getType().equals("goat") ||
-                currentMap[y - 1][x].getType().equals("sheep"))
-        {
-
-            killAnimal((Animal)currentMap[y - 1][x]);
-
-        } else if(currentMap[y][x - 1] instanceof Animal &&
-                currentMap[y][x - 1].getType().equals("goat") ||
-                currentMap[y][x - 1].getType().equals("sheep"))
-        {
-
-            killAnimal((Animal)currentMap[y][x - 1]);
-
-        } else if(currentMap[y][x + 1] instanceof Animal &&
-                currentMap[y][x + 1].getType().equals("goat") ||
-                currentMap[y][x + 1].getType().equals("sheep"))
-        {
-
-            killAnimal((Animal)currentMap[y][x + 1]);
+        if(animal.isAnimalInSameLocationWithPlant()) {
+            Plant.setTotalPlants(); // reduce total plant number
         }
-
     }
 
     /**
@@ -202,65 +173,64 @@ public class AnimalServicesImpl implements AnimalServices {
     }
 
     /**
-     * In case 1,2,3 or 4, the method moveCarnivores will look for an adjacent spot available up, down, left or rigth
+     * In case 1,2,3 or 4, the method moveCarnivores will look for an adjacent spot available up, down, left or right
      * respectevetly.
      * @param animal
      */
     private void moveCarnivores(Animal animal) {
-
+        boolean exit = false;
         y = animal.getY();
         x = animal.getX();
 
-        adjacentLocation = getLocationToMoveRandomly();
+        while(!exit) {
+            adjacentLocation = getLocationToMoveRandomly();
+            switch (adjacentLocation) {
+                case 1:
+                    if(currentMap[y + 2][x] == null) {
+                        currentMap[y][x] = null;
+                        currentMap[y + 2][x] = animal;
+                        exit = true;
+                    } else if(currentMap[y + 1][x] == null) {
+                        currentMap[y][x] = animal;
+                        exit = true;
+                    }
+                    break;
 
-        switch (adjacentLocation) {
-            case 1:
-            if(currentMap[y + 2][x] == null) {
+                case 2:
+                    if(currentMap[y - 2][x] == null) {
+                        currentMap[y][x] = null;
+                        currentMap[y - 2][x] = animal;
+                        exit = true;
+                    } else if(currentMap[y - 1][x] == null) {
+                        currentMap[y][x] = animal;
+                        exit = true;
+                    }
+                    break;
 
-                currentMap[y + 2][x] = animal;
+                case 3:
+                    if(currentMap[y][x - 2] == null) {
+                        currentMap[y][x] = null;
+                        currentMap[y][x - 2] = animal;
+                        exit = true;
+                    } else if(currentMap[y][x - 1] == null) {
+                        currentMap[y][x] = animal;
+                        exit = true;
+                    }
+                    break;
 
-            } else if(currentMap[y + 1][x] == null) {
-
-                currentMap[y + 1][x] = animal;
-
+                case 4:
+                    if(currentMap[y][x + 2] == null) {
+                        currentMap[y][x] = null;
+                        currentMap[y][x + 2] = animal;
+                        exit = true;
+                    } else if(currentMap[y][x + 1] == null) {
+                        currentMap[y][x] = animal;
+                        exit = true;
+                    }
+                    break;
             }
-            break;
-
-            case 2:
-                if(currentMap[y - 2][x] == null) {
-
-                    currentMap[y - 2][x] = null;
-
-                } else if(currentMap[y - 1][x] == null) {
-
-                    currentMap[y - 1][x] = animal;
-
-                }
-                break;
-
-            case 3:
-                if(currentMap[y][x - 2] == null) {
-
-                    currentMap[y][x - 2] = null;
-
-                } else if(currentMap[y][x - 1] == null) {
-
-                    currentMap[y][x - 1] = animal;
-
-                }
-                break;
-
-            case 4:
-                if(currentMap[y][x + 2] == null) {
-
-                    currentMap[y][x + 2] = null;
-
-                } else if(currentMap[y][x + 1] == null) {
-
-                    currentMap[y][x + 1] = animal;
-                }
-                break;
         }
+
 
     }
 
@@ -270,61 +240,63 @@ public class AnimalServicesImpl implements AnimalServices {
      * @param animal
      */
     private void moveHerbivorous(Animal animal) {
-
+        boolean exit = false;
         y = animal.getY();
         x = animal.getX();
 
-        adjacentLocation = getLocationToMoveRandomly();
+        while (!exit) {
+            adjacentLocation = getLocationToMoveRandomly();
+            switch (adjacentLocation) {
 
-        switch (adjacentLocation) {
+                case 1:
+                    if(currentMap[y + 1][x] == null) {
+                        currentMap[y][x] = null;
+                        currentMap[y + 1][x] = animal;
+                        exit = true;
+                    } else if(currentMap[y + 1][x] instanceof Plant) {
+                        currentMap[y][x] = null;
+                        currentMap[y + 1][x] = animal;
+                        animal.setAnimalInSameLocationWithPlant(true);
+                        exit = true;
+                    }
+                    break;
 
-            case 1:
-                if(currentMap[y + 1][x] == null) {
+                case 2:
+                    if(currentMap[y - 1][x] == null) {
+                        currentMap[y - 1][x] = animal;
+                        exit = true;
+                    } else if(currentMap[y - 1][x] instanceof Plant) {
+                        currentMap[y][x] = null;
+                        currentMap[y - 1][x] = animal;
+                        animal.setAnimalInSameLocationWithPlant(true);
+                        exit = true;
+                    }
+                    break;
 
-                    currentMap[y + 1][x] = animal;
+                case 3:
+                    if(currentMap[y][x - 1] == null) {
+                        currentMap[y][x - 1] = animal;
+                        exit = true;
+                    } else if(currentMap[y][x - 1] instanceof Plant) {
+                        currentMap[y][x] = null;
+                        currentMap[y][x - 1] = animal;
+                        animal.setAnimalInSameLocationWithPlant(true);
+                        exit = true;
+                    }
+                    break;
 
-                } else if(currentMap[y + 1][x] instanceof Plant) {
-
-                    currentMap[y + 1][x] = animal;
-
-                }
-                break;
-
-            case 2:
-                 if(currentMap[y - 1][x] == null) {
-
-                currentMap[y - 1][x] = animal;
-
-                } else if(currentMap[y - 1][x] instanceof Plant) {
-
-                    currentMap[y - 1][x] = animal;
-
-                }
-                break;
-
-            case 3:
-                if(currentMap[y][x - 1] == null) {
-
-                    currentMap[y][x - 1] = animal;
-
-                } else if(currentMap[y][x - 1] instanceof Plant) {
-
-                    currentMap[y][x - 1] = animal;
-
-                }
-                break;
-
-            case 4:
-                if(currentMap[y][x + 1] == null) {
-
-                    currentMap[y][x + 1] = animal;
-
-                } else if(currentMap[y][x + 1] instanceof Plant) {
-
-                    currentMap[y][x + 1] = animal;
-                }
-                break;
-
+                case 4:
+                    if(currentMap[y][x + 1] == null) {
+                        currentMap[y][x + 1] = animal;
+                        exit = true;
+                    } else if(currentMap[y][x + 1] instanceof Plant) {
+                        currentMap[y][x] = null;
+                        currentMap[y][x + 1] = animal;
+                        animal.setAnimalInSameLocationWithPlant(true);
+                        exit = true;
+                    }
+                    break;
+            }
         }
 
     }
@@ -348,7 +320,7 @@ public class AnimalServicesImpl implements AnimalServices {
 
                    if(!checkAnimalHungerResistance(animal)) {
                        killAnimal(animal);
-                       Animal.setDiedAnimalsforStarvation();
+                       Animal.setDiedAnimalsForStarvation();
                    } else if(isAnimalReadyToGiveBirth(animal)) {
                        givingBirthToAnimal(animal);
                        feedAnimal(animal);
@@ -365,8 +337,8 @@ public class AnimalServicesImpl implements AnimalServices {
      */
     @Override
     public void printAnimalPopulation() {
-        System.out.print("\nTotal Animals: " + Animal.getTotalAnimals());
-        System.out.print("\tLions: " + Animal.getTotalLions());
+        System.out.println("\n\n\t\t\t\t\t\t\t\t\t Total Animals alive: " + Animal.getTotalAnimals());
+        System.out.print("\n\t\t\t\t\t\t Lions: " + Animal.getTotalLions());
         System.out.print("\tTigers: " + Animal.getTotalTigers());
         System.out.print("\tGoats: " + Animal.getTotalGoats());
         System.out.print("\tSheeps: " + Animal.getTotalSheeps());
@@ -377,8 +349,8 @@ public class AnimalServicesImpl implements AnimalServices {
      */
     @Override
     public void printDiedAnimals() {
-        System.out.println(Animal.getDiedAnimalsForStarvation() + " animals died due to starvation");
-        System.out.println(Animal.getAnimalsEaten() + " animals were eaten");
+        System.out.print("\n\t\t\t" + Animal.getDiedAnimalsForStarvation() + " animals died due to starvation");
+        System.out.println("\t\t\t\t" + Animal.getAnimalsEaten() + " animals were eaten \n");
     }
 
     @Override

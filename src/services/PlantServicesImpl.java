@@ -2,11 +2,11 @@ package services;
 
 import model.Plant;
 
-public class PlantSerrvicesImpl implements PlantServices {
+public class PlantServicesImpl implements PlantServices {
 
     @Override
     public void printRemainingPlants() {
-        System.out.print("\nPlants remaining: " + Plant.getTotalPlants());
+        System.out.print("\n \t\t\t\t\t\t\t\t\t  Plants remaining: " + Plant.getTotalPlants() + "\n\n\n");
     }
 
     @Override

@@ -12,4 +12,6 @@ public class Plant extends LivingBeing {
     public static int getTotalPlants() {
         return totalPlants;
     }
+
+    public static void setTotalPlants() { --totalPlants; }
 }
