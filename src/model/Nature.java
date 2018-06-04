@@ -4,7 +4,7 @@ public class Nature {
 
     private static Nature nature;
     private static LivingBeing[][] map = new LivingBeing[8][8];
-    private int turn;
+    private static int turn;
 
     private Nature() {}
 
@@ -17,7 +17,19 @@ public class Nature {
         return nature;
     }
 
+    public static int getTurn() {
+        return turn;
+    }
+
+    public static void setTurn() {
+        turn++ ;
+    }
+
     public LivingBeing[][] getMap() { return map; }
+
+    public static void setMap(LivingBeing[][] map) {
+        Nature.map = map;
+    }
 
     public void addLivingBeingToMap(LivingBeing being) {
 
@@ -27,11 +39,4 @@ public class Nature {
         map[y][x] = being;
     }
 
-    public int getTurn() {
-        return turn;
-    }
-
-    public void setTurn(int turn) {
-        this.turn = turn;
-    }
 }

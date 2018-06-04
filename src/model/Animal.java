@@ -7,6 +7,8 @@ public class Animal extends LivingBeing {
     private static int totalTigers;
     private static int totalGoats;
     private static int totalSheeps;
+    private static int diedAnimalsForStarvation;
+    private static int animalsEaten;
 
     private int age;
     private int ageToGiveBirth;
@@ -54,17 +56,21 @@ public class Animal extends LivingBeing {
 
     public static int getTotalSheeps() { return totalSheeps; }
 
+    public static int getDiedAnimalsForStarvation() { return diedAnimalsForStarvation; }
+
+    public static void setDiedAnimalsforStarvation() { diedAnimalsForStarvation++; }
+
+    public static int getAnimalsEaten() { return animalsEaten; }
+
+    public static void setAnimalsEaten() { animalsEaten++; }
+
     public int getAge() { return age; }
 
     public void setAge() { this.age++; }
 
     public int getAgeToGiveBirth() { return ageToGiveBirth; }
 
-    public void setAgeToGiveBirth(int ageToGiveBirth) { this.ageToGiveBirth = ageToGiveBirth; }
-
     public int getSpeed() { return speed; }
-
-    public void setSpeed(int speed) { this.speed = speed; }
 
     public int getHungerResistance() { return hungerResistance; }
 

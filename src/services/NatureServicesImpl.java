@@ -2,6 +2,7 @@ package services;
 
 import model.Animal;
 import model.LivingBeing;
+import model.Nature;
 
 public class NatureServicesImpl  implements NatureServices {
 
@@ -46,6 +47,16 @@ public class NatureServicesImpl  implements NatureServices {
         }
         System.out.println("=====================================" +
                             "===================================");
+    }
+
+    @Override
+    public void incrementTurn() {
+        Nature.setTurn();
+    }
+
+    @Override
+    public void printTurn() {
+        System.out.println(Nature.getTurn());
     }
 
 
