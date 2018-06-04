@@ -22,7 +22,7 @@ public class Main {
         PlantServices plantServices = new PlantSerrvicesImpl();
 
 
-        // create Animals
+        // create Animals and add then to 8x8 nature map
         animal = new Animal(3, 2, 2, 2, 4, "lion");
         nature.addLivingBeingToMap(animal);
         animal = new Animal(0, 7, 2, 2, 4, "lion");
@@ -41,7 +41,7 @@ public class Main {
         nature.addLivingBeingToMap(animal);
 
 
-        // create plants
+        // create 4 plants and add then to 8x8 nature map
         plant = new Plant(5, 7);
         nature.addLivingBeingToMap(plant);
         plant = new Plant(1, 4);
@@ -51,16 +51,34 @@ public class Main {
         plant = new Plant(2, 5);
         nature.addLivingBeingToMap(plant);
 
+        boolean exit = false;
+        while (!exit) {
 
-        // create nature with 8X8 map and add the 8 animals and 4 plants
-        map = nature.getMap();
-        natureService.printNature(map);
+            // get and print nature map when turn begins
+            natureService.incrementTurn();
+            map = nature.getMap();
+            natureService.printTurn();
+            natureService.printNature(map);
+            animalServices.printAnimalPopulation();
+            plantServices.printRemainingPlants();
 
 
-        animalServices.printAnimalPopulation();
-        plantServices.printRemainingPlants();
+            animalServices.startLivingBeingFoodChain(map);
 
 
-        animalServices.startLivingBeingFoodChain(map);
+            // get and print nature map  before turn ends
+            map = nature.getMap();
+            natureService.printTurn();
+            natureService.printNature(map);
+            animalServices.printDiedAnimals();
+
+            if(!animalServices.isThereCarnivores() || !plantServices.isTherePlants()) {
+                exit = true;
+            }
+        }
+
+        System.out.println("\n Game Over");
+
     }
+
 }

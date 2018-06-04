@@ -8,8 +8,7 @@ public interface AnimalServices {
 
     void printAnimalPopulation();
 
-    /**
-     * Also we need to know how many animals have been died and specifically how many they were eaten and how many died due to starvation!
-     */
     void printDiedAnimals();
+
+    boolean isThereCarnivores();
 }
