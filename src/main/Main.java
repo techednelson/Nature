@@ -6,9 +6,15 @@ import model.Nature;
 import model.Plant;
 import services.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         Nature nature = Nature.getNature();
         LivingBeing[][] map;
@@ -19,25 +25,25 @@ public class Main {
         // create an object for each service class implementation
         NatureServices natureService = new NatureServicesImpl();
         AnimalServices animalServices = new AnimalServicesImpl();
-        PlantServices plantServices = new PlantSerrvicesImpl();
+        PlantServices plantServices = new PlantServicesImpl();
 
 
         // create Animals and add then to 8x8 nature map
-        animal = new Animal(3, 2, 2, 2, 4, "lion");
+        animal = new Animal(3, 2, 2, 2,  "lion");
         nature.addLivingBeingToMap(animal);
-        animal = new Animal(0, 7, 2, 2, 4, "lion");
+        animal = new Animal(0, 7, 2, 2, "lion");
         nature.addLivingBeingToMap(animal);
-        animal = new Animal(7, 3, 3, 2, 4, "tiger");
+        animal = new Animal(7, 3, 3, 2,  "tiger");
         nature.addLivingBeingToMap(animal);
-        animal = new Animal(4, 6, 3, 2, 4, "tiger");
+        animal = new Animal(4, 6, 3, 2,  "tiger");
         nature.addLivingBeingToMap(animal);
-        animal = new Animal(0, 3, 4, 1, 4, "goat");
+        animal = new Animal(0, 3, 4, 1,  "goat");
         nature.addLivingBeingToMap(animal);
-        animal = new Animal(4, 7, 4, 1, 4, "goat");
+        animal = new Animal(4, 7, 4, 1,  "goat");
         nature.addLivingBeingToMap(animal);
-        animal = new Animal(2, 5, 5, 1, 4, "sheep");
+        animal = new Animal(2, 5, 5, 1,  "sheep");
         nature.addLivingBeingToMap(animal);
-        animal = new Animal(3, 7, 5, 1, 4, "sheep");
+        animal = new Animal(3, 7, 5, 1,  "sheep");
         nature.addLivingBeingToMap(animal);
 
 
@@ -68,13 +74,16 @@ public class Main {
 
             // get and print nature map  before turn ends
             map = nature.getMap();
-            natureService.printTurn();
             natureService.printNature(map);
             animalServices.printDiedAnimals();
 
             if(!animalServices.isThereCarnivores() || !plantServices.isTherePlants()) {
                 exit = true;
             }
+
+            System.out.println("\n Please press twice enter to continue");
+            br.readLine();
+
         }
 
         System.out.println("\n Game Over");

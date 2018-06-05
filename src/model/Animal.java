@@ -14,12 +14,13 @@ public class Animal extends LivingBeing {
     private int ageToGiveBirth;
     private int speed;
     private int hungerResistance;
+    private boolean isAnimalInSameLocationWithPlant;
 
     public Animal (
             int y,
-            int x, int ageToGiveBirth,
+            int x,
+            int ageToGiveBirth,
             int speed,
-            int hungerResistance,
             String type
         )
     {
@@ -27,7 +28,7 @@ public class Animal extends LivingBeing {
 
         this.ageToGiveBirth = ageToGiveBirth;
         this.speed = speed;
-        this.hungerResistance = hungerResistance;
+        this.hungerResistance = 4;
 
         switch(type) {
             case "tiger":
@@ -58,7 +59,7 @@ public class Animal extends LivingBeing {
 
     public static int getDiedAnimalsForStarvation() { return diedAnimalsForStarvation; }
 
-    public static void setDiedAnimalsforStarvation() { diedAnimalsForStarvation++; }
+    public static void setDiedAnimalsForStarvation() { diedAnimalsForStarvation++; }
 
     public static int getAnimalsEaten() { return animalsEaten; }
 
@@ -74,6 +75,10 @@ public class Animal extends LivingBeing {
 
     public int getHungerResistance() { return hungerResistance; }
 
-    public void setHungerResistance(int hungerResistance) { this.hungerResistance = hungerResistance; }
+    public void setHungerResistance() { this.hungerResistance = 4; }
+
+    public boolean isAnimalInSameLocationWithPlant() { return isAnimalInSameLocationWithPlant; }
+
+    public void setAnimalInSameLocationWithPlant(boolean isSameLocation) { this.isAnimalInSameLocationWithPlant = isSameLocation; }
 
 }
