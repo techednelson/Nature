@@ -1,25 +1,24 @@
 package services;
 
 import model.Animal;
-import model.LivingBeing;
 import model.Nature;
 
 public class NatureServicesImpl  implements NatureServices {
 
     @Override
-    public void printNature(LivingBeing[][] map) {
+    public void printNature() {
         Animal animal;
         String type;
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t Nature Map \n");
         System.out.println("=====================================================" +
                 "===================================================");
-        for(int i = 0; i < map.length; i++) {
-            for(int j = 0; j < map[i].length; j++) {
-                if(map[i][j] != null) {
+        for(int i = 0; i < Nature.map().length; i++) {
+            for(int j = 0; j < Nature.map()[i].length; j++) {
+                if(Nature.map()[i][j] != null) {
 
-                    if(map[i][j] instanceof Animal) {
-                        animal = (Animal) map[i][j];
-                        type = map[i][j].getType();
+                    if(Nature.map()[i][j] instanceof Animal) {
+                        animal = (Animal) Nature.map()[i][j];
+                        type = Nature.map()[i][j].getType();
 
                         switch(type) {
                             case "lion":

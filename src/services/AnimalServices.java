@@ -1,10 +1,8 @@
 package services;
 
-import model.LivingBeing;
-
 public interface AnimalServices {
 
-    void startLivingBeingFoodChain(LivingBeing[][] map);
+    void startLivingBeingFoodChain();
 
     void printAnimalPopulation();
 

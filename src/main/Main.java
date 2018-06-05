@@ -60,29 +60,27 @@ public class Main {
         boolean exit = false;
         while (!exit) {
 
-            // get and print nature map when turn begins
+            // print nature map when turn begins
             natureService.incrementTurn();
-            map = nature.getMap();
             natureService.printTurn();
-            natureService.printNature(map);
+            natureService.printNature();
             animalServices.printAnimalPopulation();
             plantServices.printRemainingPlants();
 
 
-            animalServices.startLivingBeingFoodChain(map);
+            animalServices.startLivingBeingFoodChain();
 
 
-            // get and print nature map  before turn ends
-            map = nature.getMap();
-            natureService.printNature(map);
+            // get and print modified nature map  before turn ends
+            natureService.printNature();
             animalServices.printDiedAnimals();
 
             if(!animalServices.isThereCarnivores() || !plantServices.isTherePlants()) {
                 exit = true;
+            } else {
+                System.out.println("\n Please press twice enter to continue");
+                br.readLine();
             }
-
-            System.out.println("\n Please press twice enter to continue");
-            br.readLine();
 
         }
 

@@ -3,8 +3,9 @@ package model;
 public class Nature {
 
     private static Nature nature;
-    private static LivingBeing[][] map = new LivingBeing[8][8];
     private static int turn;
+
+    private static LivingBeing[][] map = new LivingBeing[8][8];
 
     private Nature() {}
 
@@ -25,7 +26,7 @@ public class Nature {
         turn++ ;
     }
 
-    public LivingBeing[][] getMap() { return map; }
+    public static LivingBeing[][] map() { return map; }
 
     public static void setMap(LivingBeing[][] map) {
         Nature.map = map;
